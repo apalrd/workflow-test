@@ -14,24 +14,32 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Create version.h and tag release
-  tag-rel:
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-            # Fetch all
-            fetch-depth: 0
-      - name: Tag release
-        run: |        
-            echo "#DEFINE TAYGA_VERSION \"${{ inputs.ver }}\"" > version.h
-            echo "#define TAYGA_BRANCH \"main\"" >> version.h
-            echo "#define TAYGA_COMMIT \"RELEASE\"" >> version.h
-            git add version.h
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "autogenerate release version file"
-            git tag ${{ inputs.ver }}
-            git push origin ${{ inputs.ver }}
+    # Create version.h and tag release
+    tag-rel:
+        permissions:
+            contents: write
+        runs-on: ubuntu-latest
+        steps:
+         - uses: actions/checkout@v4
+           with:
+                # Fetch all
+                fetch-depth: 0
+         - name: Tag release
+           run: |        
+                echo "#define TAYGA_VERSION \"${{ inputs.ver }}\"" > version.h
+                echo "#define TAYGA_BRANCH \"main\"" >> version.h
+                echo "#define TAYGA_COMMIT \"RELEASE\"" >> version.h
+                git add version.h
+                git config user.name "github-actions[bot]"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                git commit -m "autogenerate release version file"
+                git tag ${{ inputs.ver }}
+                git push origin ${{ inputs.ver }}
+    build-rel:
+        runs-on: ubuntu-latest  
+        steps:
+          - uses: jirutka/setup-alpine@v1
+            with:
+                branch: v3.19
+          - run: cat /etc/alpine-release
+            shell: alpine.sh {0}
