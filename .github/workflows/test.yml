@@ -19,16 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Create Version File
-        run: |
+        with:
+            # Fetch all
+            fetch-depth: 0
+      - name: Tag release
+        run: |        
             echo "#DEFINE TAYGA_VERSION \"${{ inputs.ver }}\"" > version.h
             echo "#define TAYGA_BRANCH \"main\"" >> version.h
             echo "#define TAYGA_COMMIT \"RELEASE\"" >> version.h
             git add version.h
-      - name: Tag release
-        run: |        
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "autogenerate release version file"
-          git tag ${{ inputs.ver }}
-          git push ${{ inputs.ver }}
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "autogenerate release version file"
+            git tag ${{ inputs.ver }}
+            git push ${{ inputs.ver }}
