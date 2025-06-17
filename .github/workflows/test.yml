@@ -20,15 +20,21 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
-    # The type of runner that the job will run on
+  # Create version.h and tag release
+  tag-rel:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Create Netns
-      run: sudo ip netns add tayga-test
-    - name: 
-      run: sudo ip netns add tayga-test && sudo ip netns exec tayga-test echo "Hello ${{ inputs.name }}"
-    - name: 
+      - uses: actions/checkout@v4
+      - name: Create Version File
+        run: |
+            echo "#DEFINE TAYGA_VERSION \"${{ inputs.ver }}\"" > version.h
+            echo "#define TAYGA_BRANCH \"main\"" >> version.h
+            echo "#define TAYGA_COMMIT \"RELEASE\"" >> version.h
+            git add version.h
+      - name: Tag release
+        run: |        
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "autogenerate release version file"
+          git tag ${{ inputs.ver }}
+          git push ${{ inputs.ver }}
