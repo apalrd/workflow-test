@@ -36,10 +36,17 @@ jobs:
                 git tag ${{ inputs.ver }}
                 git push origin ${{ inputs.ver }}
     build-rel:
+        needs: tag-rel
         runs-on: ubuntu-latest  
         steps:
           - uses: jirutka/setup-alpine@v1
             with:
                 branch: v3.19
-          - run: cat /etc/alpine-release
+          - uses: actions/checkout@v4
+            with: 
+                ref: ${{ inputs.ver }}
+          - run: |
+                git describe --tags --dirty
+                git describe --all --dirty
+                git rev-parse HEAD
             shell: alpine.sh {0}
