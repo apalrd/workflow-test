@@ -1,0 +1,3 @@
+#DEFINE TAYGA_VERSION "1.2.8"
+#define TAYGA_BRANCH "main"
+#define TAYGA_COMMIT "RELEASE"
