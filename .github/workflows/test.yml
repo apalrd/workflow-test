@@ -29,4 +29,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: sudo ip netns add tayga-test && sudo ip netsns exec tayga-test echo "Hello ${{ inputs.name }}"
+      run: sudo ip netns add tayga-test && sudo ip netns exec tayga-test echo "Hello ${{ inputs.name }}"
