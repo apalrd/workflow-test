@@ -16,6 +16,8 @@ on:
 jobs:
   # Create version.h and tag release
   tag-rel:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
