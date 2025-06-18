@@ -45,5 +45,7 @@ jobs:
           - uses: jirutka/setup-alpine@v1
             with:
                 branch: v3.19
-          - run: gcc --version
+          - run: |
+                apk add gcc make
+                gcc --version
             shell: alpine.sh {0}
