@@ -45,8 +45,5 @@ jobs:
           - uses: jirutka/setup-alpine@v1
             with:
                 branch: v3.19
-          - run: |
-                git describe --tags --dirty
-                git describe --all --dirty
-                git rev-parse HEAD
+          - run: gcc --version
             shell: alpine.sh {0}
