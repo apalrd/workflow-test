@@ -50,3 +50,4 @@ jobs:
                 git describe --all --dirty
                 git rev-parse HEAD
             shell: alpine.sh {0}
+            
